@@ -10,10 +10,10 @@ body {
 
 #output {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    max-width: 1400px;
-    margin: 0 auto;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 0px;
+    width: 75%;
+    margin-left: 10%;
 }
 
 .housecontainer {
@@ -62,13 +62,15 @@ body {
 
 .infotext {
     position: fixed;
-    top: 7%;
-    width:10%;
+    top: 55px;
+    right: 30px;
+    width: 10%;
+    text-align: center;
 }
 
 div.info{
   position:fixed;
-  left:10px;
+  right:100px;
   top:10px;
   user-select: none;
 }
