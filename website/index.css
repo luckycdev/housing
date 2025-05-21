@@ -1,0 +1,89 @@
+@font-face {
+    font-family: 'mcfont';
+    src: url('mcfont.ttf') format('truetype');
+}
+
+body {
+    background-color: gray;
+    font-family: 'mcfont';
+}
+
+#output {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.housecontainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: slategrey;
+    border-radius: 15px;
+    outline:solid;
+    outline-color: white;
+    width: 350px;
+    height: 200px;
+}
+
+.housecontainer p{
+    text-align: center;
+    margin-bottom: 0.05em;
+    margin-top: 0.05em;
+}
+
+.small{
+    position: absolute;
+    font-size: 10px;
+    right: 5px;
+    top: 5px;
+    text-align: right;
+}
+
+.headimg{
+    width: 35px;
+    height: 35px;
+}
+
+.clickable-copy {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.clickable-copy i {
+  position: relative;
+  top: -5px;
+}
+
+.infotext {
+    position: fixed;
+    top: 7%;
+    width:10%;
+}
+
+div.info{
+  position:fixed;
+  left:10px;
+  top:10px;
+  user-select: none;
+}
+div.discord{
+position:fixed;
+right:10px;
+bottom:10px;
+}
+div.github{
+position:fixed;
+right:50px;
+bottom:10px;
+}
+div.watermark{
+  position:fixed;
+  left:10px;
+  bottom:10px;
+}
