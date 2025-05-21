@@ -1,4 +1,4 @@
-fetch('https://housing.luckyc.dev/api/data')
+fetch('/api/data')
   .then(response => response.json())
   .then(({lastUpdated, data}) => {
 
