@@ -26,4 +26,6 @@ If you want to kill your screen, run `screen -X -S housing kill`
 </details>
 &nbsp;&nbsp;&nbsp;&nbsp;9. The site should be running at the domain and your server should be working!
 
+* Note: you may have to run `sudo chmod 755 housing` (change the "housing" to the path to your housing directory) for nginx to make the website work
+
 ### Help can be found at https://discord.gg/nAEtSVbcKx
