@@ -29,13 +29,10 @@ fetch('/api/data')
         const username = data.data.player.username;
         const headimg = 'https://mc-heads.net/head/'+house.owner;
         
-        const smallCapsMap = {'ᴀ': 'a', 'ʙ': 'b', 'ᴄ': 'c', 'ᴅ': 'd', 'ᴇ': 'e', 'ꜰ': 'f', 'ɢ': 'g', 'ʜ': 'h', 'ɪ': 'i', 'ᴊ': 'j', 'ᴋ': 'k', 'ʟ': 'l', 'ᴍ': 'm', 'ɴ': 'n', 'ᴏ': 'o', 'ᴘ': 'p', 'ǫ': 'q', 'ʀ': 'r', 'ꜱ': 's', 'ᴛ': 't', 'ᴜ': 'u', 'ᴠ': 'v', 'ᴡ': 'w', 'ʏ': 'y', 'ᴢ': 'z', 'ᴬ': 'A', 'ᴮ': 'B', 'ᴰ': 'D', 'ᴱ': 'E', 'ᴳ': 'G', 'ᴴ': 'H', 'ᴵ': 'I', 'ᴶ': 'J', 'ᴷ': 'K', 'ᴸ': 'L', 'ᴹ': 'M', 'ᴺ': 'N', 'ᴼ': 'O', 'ᴾ': 'P', 'ᴿ': 'R', 'ᵀ': 'T', 'ᵁ': 'U', 'ⱽ': 'V', 'ᵂ': 'W'};
-        function smallCapsToNormal(str) {
-          return str.split('').map(c => smallCapsMap[c] || c).join('');
-        }
+        const smallCapsMap = {'\u1D00': 'A', '\u0299': 'B', '\u1D04': 'C', '\u1D05': 'D', '\u1D07': 'E', '\uA730': 'F', '\u0262': 'G', '\u029C': 'H', '\u026A': 'I', '\u1D0A': 'J', '\u1D0B': 'K', '\u029F': 'L', '\u1D0D': 'M', '\u0274': 'N', '\u1D0F': 'O', '\u1D18': 'P', '\u024A': 'Q', '\u0280': 'R', '\uA731': 'S', '\u1D1B': 'T', '\u1D1C': 'U', '\u1D20': 'V', '\u1D21': 'W', '\u028F': 'Y', '\u1D22': 'Z'};
 
         const cleanName = house.name
-            .replace(/§./g, '')//remove color codes //TODO add colors
+            .replace(/\u00A7./g, '')//remove color codes //TODO add colors
             .replace(/[\uff01-\uff5e]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xfee0))//remove full width text
             .split('')
             .map(c => smallCapsMap[c] || c)//remove small caps text
@@ -54,9 +51,9 @@ fetch('/api/data')
         <p class='small'>${createdDate}</p>
         <p class="clickable-copy" onclick="copyText(this)">/visit ${username} <i class="fa-regular fa-clipboard"></i></p>
         <img class='headimg' src="${headimg}">
-        <p>Name: ${cleanName}</p>
-        <p>Players: ${house.players}</p>
-        <p>Cookies: ${house.cookies.current}</p>
+        <p>${cleanName}</p>
+        <p>${house.players} players</p>
+        <p>${house.cookies.current} cookies</p>
       `;
       document.getElementById("preoutput").hidden = 1;
       output.appendChild(div);
