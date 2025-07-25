@@ -32,7 +32,7 @@ fetch('/api/data')
         const smallCapsMap = {'\u1D00': 'A', '\u0299': 'B', '\u1D04': 'C', '\u1D05': 'D', '\u1D07': 'E', '\uA730': 'F', '\u0262': 'G', '\u029C': 'H', '\u026A': 'I', '\u1D0A': 'J', '\u1D0B': 'K', '\u029F': 'L', '\u1D0D': 'M', '\u0274': 'N', '\u1D0F': 'O', '\u1D18': 'P', '\u024A': 'Q', '\u0280': 'R', '\uA731': 'S', '\u1D1B': 'T', '\u1D1C': 'U', '\u1D20': 'V', '\u1D21': 'W', '\u028F': 'Y', '\u1D22': 'Z'};
 
         const cleanName = house.name
-            .replace(/§k/g, "")//removes all §k (TODO add §k support)
+            .replace(/\u00A7k/g, "")//removes all §k (TODO add §k support)
             .replace(/[\uff01-\uff5e]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xfee0))//remove full width text
             .split('')
             .map(c => smallCapsMap[c] || c)//remove small caps text
@@ -56,7 +56,7 @@ fetch('/api/data')
         <p>${house.players} players</p>
         <p>${house.cookies.current} cookies</p>
       `;
-      div.querySelector(".coloredname").append(coloredName);
+      div.querySelector(".coloredname").appendChild(coloredName);
       document.getElementById("preoutput").hidden = 1;
       output.appendChild(div);
     })});

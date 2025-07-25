@@ -1,26 +1,26 @@
 
 var obfuscators = [];
 var styleMap = {
-    '§4': 'font-weight:normal;text-decoration:none;color:#be0000',
-    '§c': 'font-weight:normal;text-decoration:none;color:#fe3f3f',
-    '§6': 'font-weight:normal;text-decoration:none;color:#d9a334',
-    '§e': 'font-weight:normal;text-decoration:none;color:#fefe3f',
-    '§2': 'font-weight:normal;text-decoration:none;color:#00be00',
-    '§a': 'font-weight:normal;text-decoration:none;color:#3ffe3f',
-    '§b': 'font-weight:normal;text-decoration:none;color:#3ffefe',
-    '§3': 'font-weight:normal;text-decoration:none;color:#00bebe',
-    '§1': 'font-weight:normal;text-decoration:none;color:#0000be',
-    '§9': 'font-weight:normal;text-decoration:none;color:#3f3ffe',
-    '§d': 'font-weight:normal;text-decoration:none;color:#fe3ffe',
-    '§5': 'font-weight:normal;text-decoration:none;color:#be00be',
-    '§f': 'font-weight:normal;text-decoration:none;color:#ffffff',
-    '§7': 'font-weight:normal;text-decoration:none;color:#bebebe',
-    '§8': 'font-weight:normal;text-decoration:none;color:#3f3f3f',
-    '§0': 'font-weight:normal;text-decoration:none;color:#000000',
-    '§l': 'font-weight:bold',
-    '§n': 'text-decoration:underline;text-decoration-skip:spaces',
-    '§o': 'font-style:italic',
-    '§m': 'text-decoration:line-through;text-decoration-skip:spaces',
+    '\u00A74': 'font-weight:normal;text-decoration:none;color:#be0000',
+    '\u00A7c': 'font-weight:normal;text-decoration:none;color:#fe3f3f',
+    '\u00A76': 'font-weight:normal;text-decoration:none;color:#d9a334',
+    '\u00A7e': 'font-weight:normal;text-decoration:none;color:#fefe3f',
+    '\u00A72': 'font-weight:normal;text-decoration:none;color:#00be00',
+    '\u00A7a': 'font-weight:normal;text-decoration:none;color:#3ffe3f',
+    '\u00A7b': 'font-weight:normal;text-decoration:none;color:#3ffefe',
+    '\u00A73': 'font-weight:normal;text-decoration:none;color:#00bebe',
+    '\u00A71': 'font-weight:normal;text-decoration:none;color:#0000be',
+    '\u00A79': 'font-weight:normal;text-decoration:none;color:#3f3ffe',
+    '\u00A7d': 'font-weight:normal;text-decoration:none;color:#fe3ffe',
+    '\u00A75': 'font-weight:normal;text-decoration:none;color:#be00be',
+    '\u00A7f': 'font-weight:normal;text-decoration:none;color:#ffffff',
+    '\u00A77': 'font-weight:normal;text-decoration:none;color:#bebebe',
+    '\u00A78': 'font-weight:normal;text-decoration:none;color:#3f3f3f',
+    '\u00A70': 'font-weight:normal;text-decoration:none;color:#000000',
+    '\u00A7l': 'font-weight:bold',
+    '\u00A7n': 'text-decoration:underline;text-decoration-skip:spaces',
+    '\u00A7o': 'font-style:italic',
+    '\u00A7m': 'text-decoration:line-through;text-decoration-skip:spaces',
 };
 function obfuscate(string, elem) {
     var magicSpan,
@@ -65,7 +65,7 @@ function applyCode(string, codes) {
         obfuscated = false;
     for(var i = 0; i < len; i++) {
         elem.style.cssText += styleMap[codes[i]] + ';';
-        if(codes[i] === '§k') {
+        if(codes[i] === '\u00A7k') {
             obfuscate(string, elem);
             obfuscated = true;
         }
@@ -74,7 +74,7 @@ function applyCode(string, codes) {
     return elem;
 }
 function parseStyle(string) {
-    var codes = string.match(/§.{1}/g) || [],
+    var codes = string.match(/\u00A7.{1}/g) || [],
         indexes = [],
         apply = [],
         tmpStr,
@@ -103,8 +103,8 @@ function parseStyle(string) {
         } else {
             apply.push( codes[i] );
         }
-        if( apply.lastIndexOf('§r') > -1) {
-            apply = apply.slice( apply.lastIndexOf('§r') + 1 );
+        if( apply.lastIndexOf('\u00A7r') > -1) {
+            apply = apply.slice( apply.lastIndexOf('\u00A7r') + 1 );
         }
         tmpStr = string.substring( indexes[i], indexes[i + 1] );
         final.appendChild( applyCode(tmpStr, apply) );
