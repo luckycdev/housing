@@ -4,16 +4,16 @@
 }
 
 body {
-    background-color: gray;
+    background-color: rgb(77, 77, 77);
     font-family: 'mcfont';
 }
 
 #output {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 0px;
-    width: 75%;
-    margin-left: 10%;
+    place-items: center;
+    margin: auto;
+    max-width: 1500px;
 }
 
 .housecontainer {
@@ -21,12 +21,14 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: slategrey;
+    background-color: rgb(106, 111, 117);
     border-radius: 15px;
     outline:solid;
     outline-color: white;
     width: 350px;
     height: 200px;
+    margin-bottom: 20px;
+    margin-right: 20px;
 }
 
 .housecontainer p{
@@ -63,9 +65,10 @@ body {
 .infotext {
     position: fixed;
     top: 55px;
-    right: 30px;
+    right: 20px;
     width: 10%;
     text-align: center;
+    z-index: 1000000;
 }
 
 div.info{
@@ -74,18 +77,32 @@ div.info{
   top:10px;
   user-select: none;
 }
+
 div.discord{
 position:fixed;
 right:10px;
 bottom:10px;
 }
+
 div.github{
 position:fixed;
 right:50px;
 bottom:10px;
 }
+
 div.watermark{
   position:fixed;
   left:10px;
   bottom:10px;
+}
+
+.links {
+    transition: 0.4s;
+    color: #6dabee;
+    cursor: pointer;
+}
+
+.links:hover {
+    transition: 0.4s;
+    color: #0f76e4;
 }
