@@ -30,7 +30,7 @@ const fetchHypixelData = async () => {
     const response = await axios.get(`https://api.hypixel.net/v2/housing/active?key=${apiKey}`);
     cachedData = response.data;
     lastUpdated = new Date().toISOString();
-    console.log(`[${getTimestamp()}] Updated Hypixel data`);
+    console.log(`[${getTimestamp()}] Updated active houses`);
   } catch (error) {
     console.error(`[${getTimestamp()}] Error fetching data from Hypixel: ${error.message}`);
   }
@@ -39,7 +39,7 @@ const fetchHypixelData = async () => {
 fetchHypixelData();
 setInterval(fetchHypixelData, 10000);//every 10 sec
 
-app.get('/api/data', (req, res) => {//give users data
+app.get('/api/data', (req, res) => {//give data
   if (cachedData) {
     res.json({lastUpdated, data:cachedData});
   } else {
