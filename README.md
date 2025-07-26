@@ -33,8 +33,10 @@ If you want to kill your screen, run `screen -X -S housing kill`
 
 ## Roadmap / to-do list
 - sorting by player count, cookie count, and recent
-- searching players houses (https://api.hypixel.net/#tag/Housing/paths/~1v2~1housing~1houses/get)
-- make houses clickable and you can get data from them (https://api.hypixel.net/#tag/Housing/paths/~1v2~1housing~1houses/get) - maybe set up a cookie history chart and player history chart etc.
+- add search bar and search by player name and maybe houses
+- set up a cookie history chart and player history chart etc. for house info pages
+- on the player info page you can click on the houses to see their info
 - §k support
 - make unicode characters in house names appear on the same line
-- make site look a bit nicer
+- make site css look a bit nicer - also for the player and house pages (containers)
+- save all houses from a user to a cache so when you go to the player it shows all of their houses - check if it still exists before it shows it and if not remove from cache - might need to raise safe rate limit
