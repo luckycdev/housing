@@ -8,12 +8,40 @@ body {
     font-family: 'mcfont';
 }
 
+.bigname {
+    text-align: center;
+    color:black;
+}
+
+.bigname a {
+    color:black;
+    text-decoration: none;
+}
+
+.preoutput {
+    text-align: center;
+    color: black;
+    text-shadow: 2px 2px 0 white;
+    user-select: none;
+}
+
 #activeOutput {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     place-items: center;
     margin: auto;
     max-width: 1500px;
+}
+
+.coloredname {
+    text-shadow: 2px 2px 2px black;
+}
+
+.nodata{
+    text-align: center;
+    color:rgb(255, 26, 26);
+    cursor: default;
+    text-shadow: 2px 2px 2px black;
 }
 
 .housecontainer {
@@ -51,15 +79,15 @@ body {
 }
 
 .clickable-copy {
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .clickable-copy i {
-  position: relative;
-  top: -5px;
+    position: relative;
+    top: -5px;
 }
 
 .infotext {
@@ -71,29 +99,46 @@ body {
     z-index: 1000000;
 }
 
-div.info{
-  position:fixed;
-  right:100px;
-  top:10px;
-  user-select: none;
+.info{
+    position:fixed;
+    right:100px;
+    top:10px;
+    user-select: none;
+    cursor:pointer;
+    text-decoration:underline;
+    font-size:15px;
+    color:black;
 }
 
-div.discord{
-position:fixed;
-right:10px;
-bottom:10px;
+.discord{
+    position:fixed;
+    right:10px;
+    bottom:10px;
 }
 
-div.github{
-position:fixed;
-right:50px;
-bottom:10px;
+.discord a {
+    color:#5865F2;
 }
 
-div.watermark{
-  position:fixed;
-  left:10px;
-  bottom:10px;
+.github{
+    position:fixed;
+    right:50px;
+    bottom:10px;
+}
+
+.github a {
+    color:black;
+}
+
+.watermark{
+    position:fixed;
+    left:10px;
+    bottom:10px;
+}
+
+.watermark a {
+    font-size:12px;
+    color:black;
 }
 
 .links {

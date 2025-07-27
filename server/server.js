@@ -8,7 +8,7 @@ const PORT = 3000;
 
 app.use(cors());
 
-const getTimestamp = () => { //timestamp for logging
+const getTimestamp = () => { // timestamp for logging
   return new Date().toLocaleString('en-US', {
     year: 'numeric',
     month: 'short',
@@ -23,7 +23,7 @@ const getTimestamp = () => { //timestamp for logging
 let requestCount = 0;
 let lastReset = Date.now();
 
-setInterval(() => { //reset request count
+setInterval(() => { // reset request count
   requestCount = 0;
   lastReset = Date.now();
 }, 60 * 1000);
@@ -49,7 +49,7 @@ async function safeHypixelFetch(url, res) {
   }
 }
 
-app.get('/api/house/:houseId', async (req, res) => { //get a house's info
+app.get('/api/house/:houseId', async (req, res) => { // get a house's info
   const houseId = req.params.houseId;
   const apiKey = process.env.API_KEY;
   const url = `https://api.hypixel.net/v2/housing/house?house=${houseId}&key=${apiKey}`;
@@ -62,7 +62,7 @@ app.get('/api/house/:houseId', async (req, res) => { //get a house's info
   }
 });
 
-app.get('/api/houses/:playerId', async (req, res) => { //get a player's houses
+app.get('/api/houses/:playerId', async (req, res) => { // get a player's houses
   const playerId = req.params.playerId;
   const apiKey = process.env.API_KEY;
   const url = `https://api.hypixel.net/v2/housing/houses?player=${playerId}&key=${apiKey}`;
@@ -78,7 +78,7 @@ app.get('/api/houses/:playerId', async (req, res) => { //get a player's houses
 let cachedData = null;
 let lastUpdated = null;
 
-const fetchHypixelData = async () => { //get active houses
+const fetchHypixelData = async () => { // get active houses
   try {
     const apiKey = process.env.API_KEY;
     const response = await axios.get(`https://api.hypixel.net/v2/housing/active?key=${apiKey}`);
@@ -91,9 +91,9 @@ const fetchHypixelData = async () => { //get active houses
 };
 
 fetchHypixelData();
-setInterval(fetchHypixelData, 10000); //every 10 sec
+setInterval(fetchHypixelData, 10000); // every 10 sec
 
-app.get('/api/active', (req, res) => { //give cached data
+app.get('/api/active', (req, res) => { // give cached data
   if (cachedData) {
     res.json({lastUpdated, data:cachedData});
   } else {

@@ -1,13 +1,14 @@
-function getDate(createdAt) {
-  const rawDate = new Date(createdAt).toLocaleString(undefined, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: false
+const YOUR_DOMAIN = 'github.com/luckycdev/housing';
+
+function getDate(date) {
+  return new Date(date).toLocaleString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: false
   });
-  return rawDate.replace(/,/g, '<br>');
 }
 
 function getCleanName(name) {
@@ -24,17 +25,15 @@ function getCleanName(name) {
 
 function getActive() {
   fetch('/api/active')
-    .then(response => response.json())
+    .then(response => {
+      if (response.status === 403) throw new Error('Hypixel API key is invalid or missing.');
+      if (response.status === 429) throw new Error('Rate limited by Hypixel.');
+      if (!response.ok) throw new Error(`Unexpected error: ${response.status}`);
+      return response.json();
+    })
     .then(({lastUpdated, data}) => {
 
-      var lastUpdatedTime = new Date(lastUpdated).toLocaleString(undefined, {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: '2-digit',
-          hour12: false
-      });
+      var lastUpdatedTime = getDate(lastUpdated);
       var lastUpdatedTimeDiv = document.createElement('p');
       lastUpdatedTimeDiv.innerText=`Viewing data from: ${lastUpdatedTime}`;
       document.getElementsByClassName('infotext')[0].appendChild(lastUpdatedTimeDiv);
@@ -47,7 +46,7 @@ function getActive() {
 
         fetch(`https://playerdb.co/api/player/minecraft/${house.owner}`, {
           headers: {
-            'User-Agent': 'housing.luckyc.dev'
+            'User-Agent': YOUR_DOMAIN
           }})
         .then(response => response.json())
         .then(data => {
@@ -55,7 +54,7 @@ function getActive() {
           const headimg = 'https://mc-heads.net/head/'+house.owner;
 
         div.innerHTML = `
-          <p class='small'>${getDate(house.createdAt)}</p>
+          <p class='small'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
           <p class="clickable-copy" onclick="copyText(this)">/visit ${username} <i class="fa-regular fa-clipboard"></i></p>
           <img class='headimg' src="${headimg}">
           <p class="coloredname"></p>
@@ -63,27 +62,36 @@ function getActive() {
           <p>${house.cookies.current} cookies</p>
         `;
         div.querySelector(".coloredname").appendChild(getCleanName(house.name));
-        document.getElementById("preoutput").hidden = 1;
+        document.getElementsByClassName("preoutput")[0].hidden = true;
         output.appendChild(div);
       })});
   })
     .catch(err => {
-      console.error('Failed to fetch:', err);
+      console.error('Failed to fetch:', err.message);
     });
 }
 
 function getHouseData(houseId) {
   const output = document.getElementById('houseOutput');
+  const container = document.createElement('div');
 
   fetch(`/api/house/${houseId}`)
     .then(res => {
-      if (!res.ok) throw new Error("Rate limit or fetch failed");
+      if (res.status === 403) throw new Error("Hypixel API key is invalid or missing");
+      if (res.status === 404) return res.json().then(data => {
+        if (data.cause === "No result was found") {
+          throw new Error("No result was found for this house");
+        }
+        throw new Error("House not found.");
+      });
+      if (res.status === 429) throw new Error("Rate limited by Hypixel");
+      if (!res.ok) throw new Error(`Unexpected error: ${res.status}`);
       return res.json();
     })
     .then(house => {
       fetch(`https://playerdb.co/api/player/minecraft/${house.owner}`, {
         headers: {
-          'User-Agent': 'housing.luckyc.dev'
+          'User-Agent': YOUR_DOMAIN
         }
       })
         .then(response => {
@@ -93,8 +101,6 @@ function getHouseData(houseId) {
         .then(playerData => {
           const username = playerData.data.player.username;
           const headimg = 'https://mc-heads.net/head/' + house.owner;
-
-          const container = document.createElement('div');
 
           container.innerHTML = `
             <div class="houseinfo">
@@ -107,7 +113,7 @@ function getHouseData(houseId) {
             </div>
           `;
           container.querySelector(".coloredname").appendChild(getCleanName(house.name));
-          document.getElementById("preoutput").hidden = 1;
+          document.getElementsByClassName("preoutput")[0].hidden = true;
           output.appendChild(container);
         })
         .catch(err => {
@@ -121,10 +127,13 @@ function getHouseData(houseId) {
 
 function getPlayerData(playerId) {
   const output = document.getElementById('playerOutput');
+  const container = document.createElement('div');
 
   fetch(`/api/houses/${playerId}`)
     .then(res => {
-      if (!res.ok) throw new Error("Failed to fetch houses");
+      if (res.status === 403) throw new Error("Hypixel API key is invalid or missing.");
+      if (res.status === 429) throw new Error("Rate limited by Hypixel.");
+      if (!res.ok) throw new Error(`Unexpected error: ${res.status}`);
       return res.json();
     })
     .then(houses => {
@@ -134,7 +143,7 @@ function getPlayerData(playerId) {
       }
 
       fetch(`https://playerdb.co/api/player/minecraft/${playerId}`, {
-        headers: { 'User-Agent': 'housing.luckyc.dev' }
+        headers: { 'User-Agent': YOUR_DOMAIN }
       })
         .then(response => {
           if (!response.ok) throw new Error("Failed to fetch player data");
@@ -153,7 +162,6 @@ function getPlayerData(playerId) {
           output.appendChild(playerInfo);
 
           houses.forEach(house => {
-            const container = document.createElement('div');
             container.className = 'houseinfo';
             container.innerHTML = `
               <h3 class="coloredname"></h3>
@@ -164,7 +172,7 @@ function getPlayerData(playerId) {
             output.appendChild(container);
           });
 
-          document.getElementById("preoutput").hidden = 1;
+          document.getElementsByClassName("preoutput")[0].hidden = true;
         })
         .catch(err => {
           output.innerHTML = `Error loading player data: ${err.message}`;
