@@ -1,3 +1,12 @@
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
 @font-face {
     font-family: 'mcfont';
     src: url('mcfont.ttf') format('truetype');
@@ -6,6 +15,10 @@
 body {
     background-color: rgb(77, 77, 77);
     font-family: 'mcfont';
+}
+
+.nocursor {
+    cursor: default;
 }
 
 .bigname {
@@ -35,6 +48,11 @@ body {
 
 .coloredname {
     text-shadow: 2px 2px 2px black;
+    transition: all 0.2s ease-in-out;
+}
+
+.coloredname:hover {
+    filter: brightness(60%);
 }
 
 .nodata{
@@ -76,6 +94,11 @@ body {
 .headimg{
     width: 35px;
     height: 35px;
+    transition: all 0.2s ease-in-out;
+}
+
+.headimg:hover {
+    filter: brightness(50%);
 }
 
 .clickable-copy {

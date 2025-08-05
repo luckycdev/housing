@@ -14,7 +14,8 @@ function getDate(date) {
 function getCleanName(name) {
   const smallCapsMap = {'\u1D00': 'A', '\u0299': 'B', '\u1D04': 'C', '\u1D05': 'D', '\u1D07': 'E', '\uA730': 'F', '\u0262': 'G', '\u029C': 'H', '\u026A': 'I', '\u1D0A': 'J', '\u1D0B': 'K', '\u029F': 'L', '\u1D0D': 'M', '\u0274': 'N', '\u1D0F': 'O', '\u1D18': 'P', '\u024A': 'Q', '\u0280': 'R', '\uA731': 'S', '\u1D1B': 'T', '\u1D1C': 'U', '\u1D20': 'V', '\u1D21': 'W', '\u028F': 'Y', '\u1D22': 'Z'};
 
-  const cleanName = name
+  const cleanName = "\u00A7a" + name //add a §a to the start of the name to make it lime instead of black
+      .replace(/[<>]/g, '') //removes all < and > (was showing up as invisible, TODO add proper fix where it still shows the characters)
       .replace(/\u00A7k/g, "") //removes all §k (TODO add §k support)
       .replace(/[\uff01-\uff5e]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xfee0)) //remove full width text
       .split('')
@@ -26,8 +27,9 @@ function getCleanName(name) {
 function getActive() {
   fetch('/api/active')
     .then(response => {
-      if (response.status === 403) throw new Error('Hypixel API key is invalid or missing.');
-      if (response.status === 429) throw new Error('Rate limited by Hypixel.');
+      if (response.status === 403) throw new Error('Hypixel API key is invalid or missing');
+      if (response.status === 429) throw new Error("Hypixel rate limit reached, please try again later");
+      if (response.status === 430) throw new Error("Rate limit reached, please try again later");
       if (!response.ok) throw new Error(`Unexpected error: ${response.status}`);
       return response.json();
     })
@@ -54,12 +56,12 @@ function getActive() {
           const headimg = 'https://mc-heads.net/head/'+house.owner;
 
         div.innerHTML = `
-          <p class='small'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
+          <p class='small nocursor'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
           <p class="clickable-copy" onclick="copyText(this)">/visit ${username} <i class="fa-regular fa-clipboard"></i></p>
-          <img class='headimg' src="${headimg}">
-          <p class="coloredname"></p>
-          <p>${house.players} players</p>
-          <p>${house.cookies.current} cookies</p>
+          <a href="player/?${house.owner}"><img class='headimg' src="${headimg}"></a>
+          <a href="house/?${house.uuid}"><p class="coloredname"></p></a>
+          <p class="nocursor">${house.players} players</p>
+          <p class="nocursor">${house.cookies.current} cookies</p>
         `;
         div.querySelector(".coloredname").appendChild(getCleanName(house.name));
         document.getElementsByClassName("preoutput")[0].hidden = true;
@@ -84,7 +86,8 @@ function getHouseData(houseId) {
         }
         throw new Error("House not found.");
       });
-      if (res.status === 429) throw new Error("Rate limited by Hypixel");
+      if (res.status === 429) throw new Error("Hypixel rate limit reached, please try again later");
+      if (res.status === 430) throw new Error("Rate limit reached, please try again later");
       if (!res.ok) throw new Error(`Unexpected error: ${res.status}`);
       return res.json();
     })
@@ -125,20 +128,21 @@ function getHouseData(houseId) {
     });
 }
 
-function getPlayerData(playerId) {
+function getPlayerData(playerId) {//TODO foreach house not working?
   const output = document.getElementById('playerOutput');
   const container = document.createElement('div');
 
   fetch(`/api/houses/${playerId}`)
     .then(res => {
-      if (res.status === 403) throw new Error("Hypixel API key is invalid or missing.");
-      if (res.status === 429) throw new Error("Rate limited by Hypixel.");
+      if (res.status === 403) throw new Error("Hypixel API key is invalid or missing");
+      if (res.status === 429) throw new Error("Hypixel rate limit reached, please try again later");
+      if (res.status === 430) throw new Error("Rate limit reached, please try again later");
       if (!res.ok) throw new Error(`Unexpected error: ${res.status}`);
       return res.json();
     })
     .then(houses => {
       if (!houses.length) {
-        output.innerHTML = 'No houses found for this player.';
+        output.innerHTML = 'No houses found for this player';
         return;
       }
 
@@ -165,6 +169,7 @@ function getPlayerData(playerId) {
             container.className = 'houseinfo';
             container.innerHTML = `
               <h3 class="coloredname"></h3>
+              <p><strong>Players:</strong> ${house.players}</p>
               <p><strong>Cookies:</strong> ${house.cookies.current}</p>
               <p><strong>Created At:</strong> ${getDate(house.createdAt)}</p>
             `;

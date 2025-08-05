@@ -33,7 +33,7 @@ const canMakeRequest = () => requestCount < 10; // 10 requests per minute
 async function safeHypixelFetch(url, res) {
   if (!canMakeRequest()) {
     const error = 'Rate limit exceeded. Try again later.';
-    res.status(429).json({ error });
+    res.status(430).json({ error });
     return { success: false, error };
   }
 
