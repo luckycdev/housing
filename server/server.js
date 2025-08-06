@@ -28,7 +28,7 @@ setInterval(() => { // reset request count
   lastReset = Date.now();
 }, 60 * 1000);
 
-const canMakeRequest = () => requestCount < 10; // 10 requests per minute
+const canMakeRequest = () => requestCount < 20; // 20 requests per minute
 
 async function safeHypixelFetch(url, res) {
   if (!canMakeRequest()) {

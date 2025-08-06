@@ -55,6 +55,11 @@ body {
     filter: brightness(60%);
 }
 
+.individualcoloredname {
+    text-shadow: 2px 2px 2px black;
+    transition: all 0.2s ease-in-out;
+}
+
 .nodata{
     text-align: center;
     color:rgb(255, 26, 26);
@@ -99,6 +104,18 @@ body {
 
 .headimg:hover {
     filter: brightness(50%);
+}
+
+.individualheadimg{
+    transition: all 0.2s ease-in-out;
+}
+
+.individualheadimg:hover {
+    filter: brightness(50%);
+}
+
+.nodecoration {
+    text-decoration: none;
 }
 
 .clickable-copy {

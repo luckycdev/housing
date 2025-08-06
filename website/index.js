@@ -25,11 +25,15 @@ function getCleanName(name) {
 }
 
 function getActive() {
+  const output = document.getElementById('activeOutput');
+  const container = document.createElement('div');
+
   fetch('/api/active')
     .then(response => {
-      if (response.status === 403) throw new Error('Hypixel API key is invalid or missing');
+      if (response.status === 403) throw new Error("Hypixel API key is invalid or missing");
       if (response.status === 429) throw new Error("Hypixel rate limit reached, please try again later");
       if (response.status === 430) throw new Error("Rate limit reached, please try again later");
+      if (response.status === 404) throw new Error("Unable to fetch houses");
       if (!response.ok) throw new Error(`Unexpected error: ${response.status}`);
       return response.json();
     })
@@ -39,8 +43,6 @@ function getActive() {
       var lastUpdatedTimeDiv = document.createElement('p');
       lastUpdatedTimeDiv.innerText=`Viewing data from: ${lastUpdatedTime}`;
       document.getElementsByClassName('infotext')[0].appendChild(lastUpdatedTimeDiv);
-
-      const output = document.getElementById('activeOutput');
 
       data.forEach(house => {
         const div = document.createElement('div');
@@ -59,17 +61,23 @@ function getActive() {
           <p class='small nocursor'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
           <p class="clickable-copy" onclick="copyText(this)">/visit ${username} <i class="fa-regular fa-clipboard"></i></p>
           <a href="player/?${house.owner}"><img class='headimg' src="${headimg}"></a>
-          <a href="house/?${house.uuid}"><p class="coloredname"></p></a>
+          <a class="nodecoration" href="house/?${house.uuid}"><p class="coloredname"></p></a>
           <p class="nocursor">${house.players} players</p>
           <p class="nocursor">${house.cookies.current} cookies</p>
         `;
         div.querySelector(".coloredname").appendChild(getCleanName(house.name));
         document.getElementsByClassName("preoutput")[0].hidden = true;
         output.appendChild(div);
-      })});
+      })
+      .catch(err => {
+        div.innerHTML = `Error loading player data: ${err.message}`;
+        output.appendChild(div);
+      });
+    });
   })
     .catch(err => {
-      console.error('Failed to fetch:', err.message);
+      container.innerHTML = `Error loading active houses: ${err.message}`;
+      output.appendChild(container);
     });
 }
 
@@ -107,15 +115,15 @@ function getHouseData(houseId) {
 
           container.innerHTML = `
             <div class="houseinfo">
-              <h2 class="coloredname"></h2>
+              <h2 class="individualcoloredname"></h2>
               <p><strong>Owner:</strong> ${username}</p>
-              <img src="${headimg}">
+              <a href="../player/?${house.owner}"><img src="${headimg}" class="individualheadimg"></a>
               <p><strong>Players:</strong> ${house.players}</p>
               <p><strong>Cookies:</strong> ${house.cookies.current}</p>
               <p><strong>Created At:</strong> ${getDate(house.createdAt)}</p>
             </div>
           `;
-          container.querySelector(".coloredname").appendChild(getCleanName(house.name));
+          container.querySelector(".individualcoloredname").appendChild(getCleanName(house.name));
           document.getElementsByClassName("preoutput")[0].hidden = true;
           output.appendChild(container);
         })
@@ -137,6 +145,7 @@ function getPlayerData(playerId) {//TODO foreach house not working?
       if (res.status === 403) throw new Error("Hypixel API key is invalid or missing");
       if (res.status === 429) throw new Error("Hypixel rate limit reached, please try again later");
       if (res.status === 430) throw new Error("Rate limit reached, please try again later");
+      if (res.status === 404) throw new Error("Unable to fetch player info");
       if (!res.ok) throw new Error(`Unexpected error: ${res.status}`);
       return res.json();
     })
@@ -168,7 +177,7 @@ function getPlayerData(playerId) {//TODO foreach house not working?
           houses.forEach(house => {
             container.className = 'houseinfo';
             container.innerHTML = `
-              <h3 class="coloredname"></h3>
+              <a class="nodecoration" href="../house/?${house.uuid}"><h3 class="coloredname"></h3></a>
               <p><strong>Players:</strong> ${house.players}</p>
               <p><strong>Cookies:</strong> ${house.cookies.current}</p>
               <p><strong>Created At:</strong> ${getDate(house.createdAt)}</p>
@@ -184,7 +193,7 @@ function getPlayerData(playerId) {//TODO foreach house not working?
         });
     })
     .catch(err => {
-      output.innerHTML = `Error loading houses data: ${err.message}`;
+      output.innerHTML = `Error loading player data: ${err.message}`;
     });
 }
 
