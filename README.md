@@ -43,5 +43,6 @@ If you want to kill your screen, run `screen -X -S housing kill`
 - make black house names have less text shadow?
 - on player page add other hypixel info about them
 - check all error msgs showing on pages
+- fix hover affecting other titles on active, and change house name on the player page to p instead of h3 so it isnt full width
 
 - foreach house not working for player in index.js?
