@@ -115,12 +115,12 @@ function getHouseData(houseId) {
 
           container.innerHTML = `
             <div class="houseinfo">
-              <h2 class="individualcoloredname"></h2>
+              <p class='small nocursor'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
+              <p class="individualcoloredname"></p>
               <p><strong>Owner:</strong> ${username}</p>
-              <a href="../player/?${house.owner}"><img src="${headimg}" class="individualheadimg"></a>
+              <a href="../player/?${house.owner}"><img src="${headimg}" class="headimg"></a>
               <p><strong>Players:</strong> ${house.players}</p>
               <p><strong>Cookies:</strong> ${house.cookies.current}</p>
-              <p><strong>Created At:</strong> ${getDate(house.createdAt)}</p>
             </div>
           `;
           container.querySelector(".individualcoloredname").appendChild(getCleanName(house.name));
@@ -177,7 +177,7 @@ function getPlayerData(playerId) {//TODO foreach house not working?
           houses.forEach(house => {
             container.className = 'houseinfo';
             container.innerHTML = `
-              <a class="nodecoration" href="../house/?${house.uuid}"><h3 class="coloredname"></h3></a>
+              <a class="nodecoration" href="../house/?${house.uuid}"><span class="coloredname"></span></a>
               <p><strong>Players:</strong> ${house.players}</p>
               <p><strong>Cookies:</strong> ${house.cookies.current}</p>
               <p><strong>Created At:</strong> ${getDate(house.createdAt)}</p>

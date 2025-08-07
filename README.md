@@ -41,8 +41,7 @@ If you want to kill your screen, run `screen -X -S housing kill`
 - make site css look a bit nicer - also for the player and house pages (containers)
 - save all houses from a user to a cache so when you go to the player it shows all of their houses - check if it still exists before it shows it and if not remove from cache - might need to raise safe rate limit
 - make black house names have less text shadow?
-- on player page add other hypixel info about them
+- on player page add other hypixel info about them (rank, etc)
 - check all error msgs showing on pages
-- fix hover affecting other titles on active, and change house name on the player page to p instead of h3 so it isnt full width
 
 - foreach house not working for player in index.js?

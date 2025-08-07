@@ -46,8 +46,26 @@ body {
     max-width: 1500px;
 }
 
+#houseOutput {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    place-items: center;
+    margin: auto;
+    max-width: 1500px;
+}
+
+#playerOutput {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    place-items: center;
+    margin: auto;
+    max-width: 1500px;
+}
+
 .coloredname {
+    font-family: 'mcfont', 'Segoe UI Symbol', 'Noto Sans Symbols', sans-serif;
     text-shadow: 2px 2px 2px black;
+    will-change: filter;
     transition: all 0.2s ease-in-out;
 }
 
@@ -65,6 +83,31 @@ body {
     color:rgb(255, 26, 26);
     cursor: default;
     text-shadow: 2px 2px 2px black;
+}
+
+.playerinfo {
+    text-align: center;
+}
+
+.houseinfo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(106, 111, 117);
+    border-radius: 15px;
+    outline:solid;
+    outline-color: white;
+    width: 350px;
+    height: 200px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.houseinfo p{
+    text-align: center;
+    margin-bottom: 0.05em;
+    margin-top: 0.05em;
 }
 
 .housecontainer {
