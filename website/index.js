@@ -96,7 +96,7 @@ function getHouseData(houseId) {
       });
       if (res.status === 429) throw new Error("Hypixel rate limit reached, please try again later");
       if (res.status === 430) throw new Error("Rate limit reached, please try again later");
-      if (!res.ok) throw new Error(`Unexpected error: ${res.status}`);
+      if (!res.ok) throw new Error(`Unexpected error: ${res.status}`);//TODO 500 internal server error? remove part of the uuid
       return res.json();
     })
     .then(house => {

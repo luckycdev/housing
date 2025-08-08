@@ -119,7 +119,7 @@ body {
     border-radius: 15px;
     outline:solid;
     outline-color: white;
-    width: 1000px;
+    width: 1000px;/*TODO too big on smaller screen*/
     height: 500px;
     margin-bottom: 20px;
     margin-right: 20px;

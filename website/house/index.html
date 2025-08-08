@@ -12,7 +12,13 @@
     
 <script>
     window.addEventListener('DOMContentLoaded', () => {
-    getHouseData(location.search.substring(1));
+        if(location.search.substring(1) == '') {
+            document.getElementsByClassName("preoutput")[0].hidden = true;
+            document.getElementsByClassName("nodata")[0].hidden = false;
+        }
+        else {
+        getHouseData(location.search.substring(1));
+        }
     });
 </script>
 
@@ -22,6 +28,9 @@
     <h1 class="bigname"><a href="../">housing.luckyc.dev</a></h1>
     <h2 id="preoutput" class="preoutput">Loading...</h2>
     <div id="houseOutput"></div>
+    <div class="nodata" hidden>
+        <h2>No data was found for the house's UUID you entered.</h2>
+    </div>
 
 <div class="discord"><a href="https://discord.gg/AQ4sDF6Mkz" target="_blank"><i class="fa-brands fa-discord"></i></a></div>
 <div class="github"><a href="https://github.com/luckycdev/housing" target="_blank"><i class="fa-brands fa-github"></i></a></div>
