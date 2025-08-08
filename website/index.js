@@ -114,11 +114,11 @@ function getHouseData(houseId) {
           const headimg = 'https://mc-heads.net/head/' + house.owner;
 
           container.innerHTML = `
-            <div class="houseinfo">
+            <div class="individualhouseinfo">
               <p class='small nocursor'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
               <p class="individualcoloredname"></p>
               <p><strong>Owner:</strong> ${username}</p>
-              <a href="../player/?${house.owner}"><img src="${headimg}" class="headimg"></a>
+              <a href="../player/?${house.owner}"><img src="${headimg}" class="househeadimg"></a>
               <p><strong>Players:</strong> ${house.players}</p>
               <p><strong>Cookies:</strong> ${house.cookies.current}</p>
             </div>
@@ -129,10 +129,12 @@ function getHouseData(houseId) {
         })
         .catch(err => {
           container.innerHTML = `Error loading player data: ${err.message}`;
+          output.appendChild(container);
         });
     })
     .catch(err => {
       container.innerHTML = `Error loading house data: ${err.message}`;
+      output.appendChild(container);
     });
 }
 
