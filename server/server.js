@@ -28,7 +28,7 @@ setInterval(() => { // reset request count
   lastReset = Date.now();
 }, 60 * 1000);
 
-const canMakeRequest = () => requestCount < 20; // 20 requests per minute
+const canMakeRequest = () => requestCount < 30; // 30 requests per minute
 
 async function safeHypixelFetch(url, res) {
   if (!canMakeRequest()) {
@@ -49,6 +49,19 @@ async function safeHypixelFetch(url, res) {
   }
 }
 
+app.get('/api/playerinfo/:uuid', async (req, res) => { // get a player's general Hypixel info //TODO maybe rename
+  const uuid = req.params.uuid;
+  const apiKey = process.env.API_KEY;
+  const url = `https://api.hypixel.net/v2/player?uuid=${uuid}&key=${apiKey}`;
+  
+  const result = await safeHypixelFetch(url, res);
+  if (result.success) {
+    console.log(`[${getTimestamp()}] Fetched general player info for UUID ${uuid}`);
+  } else {
+    console.error(`[${getTimestamp()}] Failed to fetch general player info for UUID ${uuid} - ${result.error}`);
+  }
+});
+
 app.get('/api/house/:houseId', async (req, res) => { // get a house's info
   const houseId = req.params.houseId;
   const apiKey = process.env.API_KEY;
@@ -62,7 +75,7 @@ app.get('/api/house/:houseId', async (req, res) => { // get a house's info
   }
 });
 
-app.get('/api/houses/:playerId', async (req, res) => { // get a player's houses
+app.get('/api/houses/:playerId', async (req, res) => { // get a player's houses //TODO prob change name from houses to player or something
   const playerId = req.params.playerId;
   const apiKey = process.env.API_KEY;
   const url = `https://api.hypixel.net/v2/housing/houses?player=${playerId}&key=${apiKey}`;

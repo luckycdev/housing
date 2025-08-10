@@ -48,7 +48,7 @@ function getActive() {
         const div = document.createElement('div');
         div.className = 'housecontainer';
 
-        fetch(`https://playerdb.co/api/player/minecraft/${house.owner}`, {
+        fetch(`https://playerdb.co/api/player/minecraft/${house.owner}`, {//TODO switch off playerdb and use hypixel playerinfo playername - for active i didnt do it because it would be a ton of requests
           headers: {
             'User-Agent': YOUR_DOMAIN
           }})
@@ -100,24 +100,21 @@ function getHouseData(houseId) {
       return res.json();
     })
     .then(house => {
-      fetch(`https://playerdb.co/api/player/minecraft/${house.owner}`, {
-        headers: {
-          'User-Agent': YOUR_DOMAIN
-        }
-      })
+      fetch(`/api/playerinfo/${house.owner}`)//TODO error codes
         .then(response => {
           if (!response.ok) throw new Error("Failed to fetch player data");
           return response.json();
         })
         .then(playerData => {
-          const username = playerData.data.player.username;
+          const username = playerData.player.playername;
+          const rank = playerData.player.newPackageRank;//TODO rank colors and rank display names (+ not _PLUS) - maybe a seperate function in this file for getting hypixel player data
           const headimg = 'https://mc-heads.net/head/' + house.owner;
 
           container.innerHTML = `
             <div class="individualhouseinfo">
               <p class='small nocursor'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
               <p class="individualcoloredname"></p>
-              <p><strong>Owner:</strong> ${username}</p>
+              <p><strong>Owner:</strong> [${rank}] ${username}</p>
               <a href="../player/?${house.owner}"><img src="${headimg}" class="househeadimg"></a>
               <p><strong>Players:</strong> ${house.players}</p>
               <p><strong>Cookies:</strong> ${house.cookies.current}</p>
@@ -157,21 +154,20 @@ function getPlayerData(playerId) {//TODO foreach house not working?
         return;
       }
 
-      fetch(`https://playerdb.co/api/player/minecraft/${playerId}`, {
-        headers: { 'User-Agent': YOUR_DOMAIN }
-      })
+      fetch(`/api/playerinfo/${playerId}`)//TODO error codes
         .then(response => {
           if (!response.ok) throw new Error("Failed to fetch player data");
           return response.json();
         })
         .then(playerData => {
-          const username = playerData.data.player.username;
+          const username = playerData.player.playername;
+          const rank = playerData.player.newPackageRank;//TODO rank colors and rank display names (+ not _PLUS) - maybe a seperate function in this file for getting hypixel player data
           const headimg = 'https://mc-heads.net/head/' + playerId;
 
           const playerInfo = document.createElement('div');
           playerInfo.className = 'playerinfo';
           playerInfo.innerHTML = `
-            <h2>${username}</h2>
+            <h2>[${rank}] ${username}</h2>
             <img src="${headimg}" alt="Player head">
           `;
           output.appendChild(playerInfo);

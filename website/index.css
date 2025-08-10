@@ -212,6 +212,7 @@ body {
     width: 10%;
     text-align: center;
     z-index: 1000000;
+    text-shadow: 0 0 15px white;
 }
 
 .info{
