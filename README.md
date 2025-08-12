@@ -37,11 +37,9 @@ If you want to kill your screen, run `screen -X -S housing kill`
 - set up a cookie history chart and player history chart etc. for house info pages
 - on the player info page you can click on the houses to see their info
 - §k support
-- make unicode characters in house names appear on the same line
-- make site css look a bit nicer - also for the player and house pages (containers)
+- make unicode characters in house names appear on the same line - house names and + in ranked names
+- make whole site css look a bit nicer
+- make house containers insides nicer (like (cookie count) (cookie emoji) and like (player count) (person emoji) and font size and colors etc.)
 - save all houses from a user to a cache so when you go to the player it shows all of their houses - check if it still exists before it shows it and if not remove from cache - might need to raise safe rate limit
 - make black house names have less text shadow?
-- on player page add other hypixel info about them (rank, etc)
 - check all error msgs showing on pages
-
-- foreach house not working for player in index.js?

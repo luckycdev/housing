@@ -19,28 +19,46 @@ async function getRankedName(uuid) {
   }
   const playerData = await response.json();
 
-    const username = playerData.player.playername;
-    const rank = playerData.player.newPackageRank;//todo monthlypackagerank
+    const username = playerData.player.displayname;
+    const rank = playerData.player.newPackageRank;
+    const monthlyRank = playerData.player.monthlyPackageRank;
+    const monthlyRankColor = playerData.player.monthlyRankColor;
     const plusColorString = playerData.player.rankPlusColor;
     const plusColorMap = new Map([["BLACK", "\u00A70"], ["DARK_BLUE", "\u00A71"], ["DARK_GREEN", "\u00A72"], ["DARK_AQUA", "\u00A73"], ["DARK_RED", "\u00A74"], ["DARK_PURPLE", "\u00A75"], ["GOLD", "\u00A76"], ["GRAY", "\u00A77"], ["DARK_GRAY", "\u00A78"], ["BLUE", "\u00A79"], ["GREEN", "\u00A7a"], ["AQUA", "\u00A7b"], ["RED", "\u00A7c"], ["LIGHT_PURPLE", "\u00A7d"], ["YELLOW", "\u00A7e"], ["WHITE", "\u00A7f"]]);
     
     const plusDisplay = plusColorMap.get(plusColorString) || "\u00A7c";
     
     let rankedName = username;
-//todo if no rank then rest else if //todo monthlypackagerank superstar - also monthly color
-    switch (rank) {
-      case "MVP_PLUS":
-        rankedName = `\u00A7b[MVP${plusDisplay}+\u00A7b] ${username}`;
-        break;
-      case "MVP":
-        rankedName = `\u00A7b[MVP] ${username}`;
-        break;
-      case "VIP_PLUS":
-        rankedName = `\u00A7a[VIP\u00A76+\u00A7a] ${username}`;
-        break;
-      case "VIP":
-        rankedName = `\u00A7a[VIP] ${username}`;
-        break;
+
+    if(monthlyRank == "SUPERSTAR")//mvp++
+    {
+      if(monthlyRankColor == "GOLD") {//gold
+        rankedName = `\u00A76[MVP${plusDisplay}++\u00A76] ${username}`;
+      }
+      else {//aqua
+        rankedName = `\u00A7b[MVP${plusDisplay}++\u00A7b] ${username}`;
+      }
+    }
+
+    else
+    {
+      switch (rank) {
+        case undefined://non
+          rankedName = `\u00A77${username}`
+          break;
+        case "MVP_PLUS"://mvp+
+          rankedName = `\u00A7b[MVP${plusDisplay}+\u00A7b] ${username}`;
+          break;
+        case "MVP"://mvp
+          rankedName = `\u00A7b[MVP] ${username}`;
+          break;
+        case "VIP_PLUS"://vip+
+          rankedName = `\u00A7a[VIP\u00A76+\u00A7a] ${username}`;
+          break;
+        case "VIP"://vip
+          rankedName = `\u00A7a[VIP] ${username}`;
+          break;
+      }
     }
     
     return rankedName.replaceColorCodes();
@@ -87,7 +105,7 @@ function getActive() {
         const div = document.createElement('div');
         div.className = 'housecontainer';
 
-        fetch(`https://playerdb.co/api/player/minecraft/${house.owner}`, {//TODO switch off playerdb and use hypixel playerinfo playername - for active i didnt do it because it would be a ton of requests
+        fetch(`https://playerdb.co/api/player/minecraft/${house.owner}`, {//TODO switch off playerdb and use hypixel playerinfo displayname - for active i didnt do it because it would be a ton of requests
           headers: {
             'User-Agent': YOUR_DOMAIN
           }})
