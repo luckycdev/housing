@@ -63,7 +63,6 @@ body {
 }
 
 .coloredname {
-    font-family: 'mcfont', 'Segoe UI Symbol', 'Noto Sans Symbols', sans-serif;
     text-shadow: 2px 2px 2px black;
     will-change: filter;
     transition: all 0.2s ease-in-out;
@@ -76,6 +75,10 @@ body {
 .individualcoloredname {
     text-shadow: 2px 2px 2px black;
     transition: all 0.2s ease-in-out;
+}
+
+.rankedname {
+    text-shadow: 2px 2px 2px black;
 }
 
 .nodata{
