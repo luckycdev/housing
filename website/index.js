@@ -72,13 +72,25 @@ function getCleanName(name) {
   const smallCapsMap = {'\u1D00': 'A', '\u0299': 'B', '\u1D04': 'C', '\u1D05': 'D', '\u1D07': 'E', '\uA730': 'F', '\u0262': 'G', '\u029C': 'H', '\u026A': 'I', '\u1D0A': 'J', '\u1D0B': 'K', '\u029F': 'L', '\u1D0D': 'M', '\u0274': 'N', '\u1D0F': 'O', '\u1D18': 'P', '\u024A': 'Q', '\u0280': 'R', '\uA731': 'S', '\u1D1B': 'T', '\u1D1C': 'U', '\u1D20': 'V', '\u1D21': 'W', '\u028F': 'Y', '\u1D22': 'Z'};
 
   const cleanName = "\u00A7a" + name //add a §a to the start of the name to make it lime instead of black
-      .replace(/[<>]/g, '') //removes all < and > (was showing up as invisible, TODO add proper fix where it still shows the characters)
-      .replace(/\u00A7k/g, "") //removes all §k (TODO add §k support)
-      .replace(/[\uff01-\uff5e]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xfee0)) //remove full width text
-      .split('')
-      .map(c => smallCapsMap[c] || c) //remove small caps text
-      .join('');
-  return cleanName.replaceColorCodes();
+    .replace(/[<>]/g, '') //removes all < and > (was showing up as invisible, TODO add proper fix where it still shows the characters)
+    .replace(/\u00A7k/g, "") //removes all §k (TODO add §k support)
+    .replace(/[\uff01-\uff5e]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xfee0)) //remove full width text
+    .split('')
+    .map(c => smallCapsMap[c] || c) //remove small caps text
+    .join('');
+  return cleanName;
+}
+
+function getColoredName(name) {
+  const coloredName = name.replaceColorCodes();
+  return coloredName;
+}
+
+function getUncoloredName(name) {
+  const cleanName = getCleanName(name);
+  const uncoloredName = cleanName.replace(/\u00A7./g, '');
+  
+  return uncoloredName;
 }
 
 function getActive() {
@@ -122,7 +134,7 @@ function getActive() {
           <p class="nocursor">${house.players} players</p>
           <p class="nocursor">${house.cookies.current} cookies</p>
         `;
-        div.querySelector(".coloredname").appendChild(getCleanName(house.name));
+        div.querySelector(".coloredname").appendChild(getColoredName(house.name));
         document.getElementsByClassName("preoutput")[0].hidden = true;
         output.appendChild(div);
       })
@@ -161,10 +173,10 @@ async function getHouseData(houseId) {
     const playerRes = await fetch(`/api/playerinfo/${house.owner}`);
     if (!playerRes.ok) throw new Error("Failed to fetch player data");
 
-    const [rankedname, username] = await getRankedName(house.owner); //username not needed
+    const [rankedname] = await getRankedName(house.owner);
     const headimg = 'https://mc-heads.net/head/' + house.owner;
 
-    //document.title = `${}`//get house name without color codes for this TODO
+    document.title = `${getUncoloredName(house.name)}`;
 
     container.innerHTML = `
       <div class="individualhouseinfo">
@@ -176,7 +188,7 @@ async function getHouseData(houseId) {
         <p><strong>Cookies:</strong> ${house.cookies.current}</p>
       </div>
     `;
-    container.querySelector(".individualcoloredname").appendChild(getCleanName(house.name));
+    container.querySelector(".individualcoloredname").appendChild(getColoredName(house.name));
     container.querySelector(".rankedname").appendChild(rankedname);
     document.getElementsByClassName("preoutput")[0].hidden = true;
     output.appendChild(container);
@@ -228,7 +240,7 @@ async function getPlayerData(playerId) {//TODO check if foreach works. i think i
         <p><strong>Cookies:</strong> ${house.cookies.current}</p>
         <p><strong>Created At:</strong> ${getDate(house.createdAt)}</p>
       `;
-      houseContainer.querySelector(".coloredname").appendChild(getCleanName(house.name));
+      houseContainer.querySelector(".coloredname").appendChild(getColoredName(house.name));
       output.appendChild(houseContainer);
     });
 
