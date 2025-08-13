@@ -16,10 +16,15 @@
     });
 </script>
 
-    <div class="info"><h3 onclick="toggleInfo()">Info</h3></div>
-    <div class="infotext" hidden><p>Uses Hypixel API, PlayerDB, and mc-heads.net - heavily inspired by the late <a class="links" href="https://web.archive.org/web/20240417020435/https://www.housing.menu/" target="_blank">housing.menu</a></p></div>
-    
+    <div class="timetext nocursor"></div>
+
     <h1 class="bigname"><a href="">housing.luckyc.dev</a></h1>
+
+    <div class="search">
+        <textarea id="searchbar" placeholder="Search player"></textarea>
+        <button onclick="searchPlayer(document.getElementById('searchbar').value)">Search</button>
+    </div>
+
     <h2 id="preoutput" class="preoutput">Loading...</h2>
     <div id="activeOutput"></div>
 

@@ -17,6 +17,43 @@ body {
     font-family: 'mcfont';
 }
 
+.search {
+    position: fixed;
+    top: 25px;
+    left: 20px;
+    width: 10%;
+    text-align: center;
+    z-index: 1000000;
+    text-shadow: 0 0 15px white;
+}
+
+.search button {
+    margin: 0;
+    margin-top: 15px;/*TODO it shifts position down on load :/ also should be 5px margin i justp ut 15 so it was less shifting*/
+    border-radius: 15px;
+    background-color: rgb(53, 53, 53);
+    color: white;
+    border: none;
+    padding: 5px;
+}
+
+.search textarea {
+    margin: 0;
+    font-family: sans-serif;
+    border: none;
+    border-radius: 5px;
+    resize: none;
+    height: 20px;
+    background-color: rgb(53, 53, 53);
+    color: white;
+    align-items: center;
+    text-align: center;
+}
+
+.search textarea::placeholder {
+    color: rgb(146, 146, 146);
+}
+
 .nocursor {
     cursor: default;
 }
@@ -208,25 +245,14 @@ body {
     top: -5px;
 }
 
-.infotext {
+.timetext {
     position: fixed;
-    top: 55px;
+    top: 25px;
     right: 20px;
     width: 10%;
     text-align: center;
     z-index: 1000000;
     text-shadow: 0 0 15px white;
-}
-
-.info{
-    position:fixed;
-    right:100px;
-    top:10px;
-    user-select: none;
-    cursor:pointer;
-    text-decoration:underline;
-    font-size:15px;
-    color:black;
 }
 
 .discord{

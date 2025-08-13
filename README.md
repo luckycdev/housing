@@ -43,3 +43,5 @@ If you want to kill your screen, run `screen -X -S housing kill`
 - save all houses from a user to a cache so when you go to the player it shows all of their houses - check if it still exists before it shows it and if not remove from cache - might need to raise safe rate limit
 - make black house names have less text shadow?
 - check all error msgs showing on pages
+
+### Heavily inspired by the now shut down [housing.menu](https://web.archive.org/web/20240417020435/https://www.housing.menu/)

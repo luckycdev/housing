@@ -1,4 +1,4 @@
-const YOUR_DOMAIN = 'github.com/luckycdev/housing';
+const YOUR_DOMAIN = 'github.com/luckycdev/housing';//playerdb kindly asks for users to use a user-agent header
 
 function getDate(date) {
   return new Date(date).toLocaleString(undefined, {
@@ -9,6 +9,18 @@ function getDate(date) {
     minute: '2-digit',
     hour12: false
   });
+}
+
+function searchPlayer(name) {//todo one search function for players and houses, maybe a search page dedicated to results
+  fetch(`https://playerdb.co/api/player/minecraft/${name}`, {//playerdb already makes it not search when there is no uuid, but maybe add my own safeguard idk
+    headers: {
+      'User-Agent': YOUR_DOMAIN
+    }})
+  .then(response => response.json())
+  .then(data => {
+    const uuid = data.data.player.raw_id;
+    location.assign("/player/?" + uuid);//TODO fix for if hosting not on root, example: domain.com/website/ will bring to domain.com/website/player/?uuid not domain.com/player/?uuid
+  })
 }
 
 async function getRankedName(uuid) {
@@ -39,8 +51,7 @@ async function getRankedName(uuid) {
         rankedName = `\u00A7b[MVP${plusDisplay}++\u00A7b] ${username}`;
       }
     }
-
-    else
+    else//if not a mvp++
     {
       switch (rank) {
         case undefined://non
@@ -82,7 +93,8 @@ function getCleanName(name) {
 }
 
 function getColoredName(name) {
-  const coloredName = name.replaceColorCodes();
+  const cleanName = getCleanName(name);
+  const coloredName = cleanName.replaceColorCodes();
   return coloredName;
 }
 
@@ -97,7 +109,7 @@ function getActive() {
   const output = document.getElementById('activeOutput');
   const container = document.createElement('div');
 
-  fetch('/api/active')
+  fetch(`/api/active`)
     .then(response => {
       if (response.status === 403) throw new Error("Hypixel API key is invalid or missing");
       if (response.status === 429) throw new Error("Hypixel rate limit reached, please try again later");
@@ -111,7 +123,7 @@ function getActive() {
       var lastUpdatedTime = getDate(lastUpdated);
       var lastUpdatedTimeDiv = document.createElement('p');
       lastUpdatedTimeDiv.innerText=`Viewing data from: ${lastUpdatedTime}`;
-      document.getElementsByClassName('infotext')[0].appendChild(lastUpdatedTimeDiv);
+      document.getElementsByClassName('timetext')[0].appendChild(lastUpdatedTimeDiv);
 
       data.forEach(house => {
         const div = document.createElement('div');
@@ -254,9 +266,4 @@ function copyText(el) {
     const text = el.textContent.trim();
     navigator.clipboard.writeText(text)
         .catch(err => console.error('Copy failed', err));
-}
-
-function toggleInfo() {
-    var infotext = document.getElementsByClassName("infotext")[0];
-    infotext.hidden = !infotext.hidden;
 }
