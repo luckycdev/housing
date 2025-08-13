@@ -35,13 +35,15 @@ body {
     color: white;
     border: none;
     padding: 5px;
+    cursor: pointer;
 }
 
 .search textarea {
     margin: 0;
     font-family: sans-serif;
-    border: none;
     border-radius: 5px;
+    border: solid;
+    border-color: rgba(0, 0, 0, 0);
     resize: none;
     height: 20px;
     background-color: rgb(53, 53, 53);
@@ -52,6 +54,11 @@ body {
 
 .search textarea::placeholder {
     color: rgb(146, 146, 146);
+}
+
+.search textarea:focus {
+    border-color: #0f76e4;
+    outline: none;
 }
 
 .nocursor {
