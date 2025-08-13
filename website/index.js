@@ -61,7 +61,7 @@ async function getRankedName(uuid) {
       }
     }
     
-    return rankedName.replaceColorCodes();
+    return [rankedName.replaceColorCodes(), username];//username for <title>
   } catch (error) {
     console.error("Failed to get ranked name:", error);
     return "Error";
@@ -161,8 +161,10 @@ async function getHouseData(houseId) {
     const playerRes = await fetch(`/api/playerinfo/${house.owner}`);
     if (!playerRes.ok) throw new Error("Failed to fetch player data");
 
-    const rankedname = await getRankedName(house.owner);
+    const [rankedname, username] = await getRankedName(house.owner); //username not needed
     const headimg = 'https://mc-heads.net/head/' + house.owner;
+
+    //document.title = `${}`//get house name without color codes for this TODO
 
     container.innerHTML = `
       <div class="individualhouseinfo">
@@ -203,8 +205,10 @@ async function getPlayerData(playerId) {//TODO check if foreach works. i think i
     const playerDataRes = await fetch(`/api/playerinfo/${playerId}`);
     if (!playerDataRes.ok) throw new Error("Failed to fetch player data");
 
-    const rankedname = await getRankedName(playerId);
+    const [rankedname, username] = await getRankedName(playerId);
     const headimg = 'https://mc-heads.net/head/' + playerId;
+
+    document.title = `${username}'s houses`;
 
     const playerInfo = document.createElement('div');
     playerInfo.className = 'playerinfo';
