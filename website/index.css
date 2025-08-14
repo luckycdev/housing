@@ -125,6 +125,16 @@ body {
     text-shadow: 2px 2px 2px black;
 }
 
+.containertext {
+    font-weight: bold;
+}
+
+.cookietext {
+    font-weight: bold;
+    color: #e68142;
+    text-shadow: 2px 2px 2px black;
+}
+
 .nodata{
     text-align: center;
     color:rgb(255, 26, 26);
@@ -200,7 +210,7 @@ body {
     margin-top: 0.05em;
 }
 
-.small{
+.small{/*TODO if view is squished it can hide the date*/
     position: absolute;
     font-size: 10px;
     right: 5px;

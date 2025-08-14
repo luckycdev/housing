@@ -8,7 +8,7 @@ function getDate(date) {
     hour: 'numeric',
     minute: '2-digit',
     hour12: false
-  });
+  });//1969 dates?
 }
 
 function searchPlayer(name) {//todo one search function for players and houses, maybe a search page dedicated to results
@@ -139,12 +139,12 @@ function getActive() {
           const headimg = 'https://mc-heads.net/head/'+house.owner;
 
         div.innerHTML = `
-          <p class='small nocursor'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
-          <p class="clickable-copy" onclick="copyText(this)">/visit ${username} <i class="fa-regular fa-clipboard"></i></p>
+          <p class='small nocursor containertext'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
+          <p class="clickable-copy containertext" onclick="copyText(this)">/visit ${username} <i class="fa-regular fa-clipboard"></i></p>
           <a href="player/?${house.owner}"><img class='headimg' src="${headimg}"></a>
           <a class="nodecoration" href="house/?${house.uuid}"><p class="coloredname"></p></a>
-          <p class="nocursor">${house.players} players</p>
-          <p class="nocursor">${house.cookies.current} cookies</p>
+          <p class="nocursor containertext">${house.players} players</p>
+          <p class="nocursor cookietext">${house.cookies.current} cookies</p>
         `;
         div.querySelector(".coloredname").appendChild(getColoredName(house.name));
         document.getElementsByClassName("preoutput")[0].hidden = true;
@@ -192,12 +192,12 @@ async function getHouseData(houseId) {
 
     container.innerHTML = `
       <div class="individualhouseinfo">
-        <p class='small nocursor'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
+        <p class='small nocursor containertext'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
         <p class="individualcoloredname"></p>
         <p><strong>Owner: </strong><a class="coloredname nodecoration" href="../player/?${house.owner}"><span class="rankedname"></span></a></p>
         <a href="../player/?${house.owner}"><img src="${headimg}" class="househeadimg"></a>
-        <p><strong>Players:</strong> ${house.players}</p>
-        <p><strong>Cookies:</strong> ${house.cookies.current}</p>
+        <p class="containertext">${house.players} players</p>
+        <p class="cookietext">${house.cookies.current} cookies</p>
       </div>
     `;
     container.querySelector(".individualcoloredname").appendChild(getColoredName(house.name));
@@ -248,9 +248,9 @@ async function getPlayerData(playerId) {//TODO check if foreach works. i think i
       houseContainer.className = 'houseinfo';
       houseContainer.innerHTML = `
         <a class="nodecoration" href="../house/?${house.uuid}"><span class="coloredname"></span></a>
-        <p><strong>Players:</strong> ${house.players}</p>
-        <p><strong>Cookies:</strong> ${house.cookies.current}</p>
-        <p><strong>Created At:</strong> ${getDate(house.createdAt)}</p>
+        <p class="containertext">${house.players} players</p>
+        <p class="cookietext">${house.cookies.current} cookies</p>
+        <p class="containertext">Created at ${getDate(house.createdAt)}</p>
       `;
       houseContainer.querySelector(".coloredname").appendChild(getColoredName(house.name));
       output.appendChild(houseContainer);
