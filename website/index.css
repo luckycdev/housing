@@ -8,13 +8,15 @@ html {
 }
 
 @font-face {
-    font-family: 'mcfont';
-    src: url('mcfont.ttf') format('truetype');
+    font-family: 'Monocraft';
+    src: url('Monocraft.ttf') format('truetype');
 }
 
 body {
     background-color: rgb(77, 77, 77);
-    font-family: 'mcfont';
+    font-family: 'Monocraft';
+    font-size: large;
+    line-height: 28px;
 }
 
 .search {
@@ -29,7 +31,7 @@ body {
 
 .search button {
     margin: 0;
-    margin-top: 15px;/*TODO it shifts position down on load :/ also should be 5px margin i justp ut 15 so it was less shifting*/
+    margin-top: 15px;/*TODO it shifts position down on load :/ also should be 5px margin i just put 15 so it was less shifting*/
     border-radius: 15px;
     background-color: rgb(53, 53, 53);
     color: white;
@@ -125,8 +127,10 @@ body {
     text-shadow: 2px 2px 2px black;
 }
 
-.containertext {
+.playertext {
     font-weight: bold;
+    color: rgb(93, 150, 236);
+    text-shadow: 2px 2px 2px black;
 }
 
 .cookietext {
@@ -135,7 +139,7 @@ body {
     text-shadow: 2px 2px 2px black;
 }
 
-.nodata{
+.nodata {
     text-align: center;
     color:rgb(255, 26, 26);
     cursor: default;
@@ -161,7 +165,7 @@ body {
     margin-right: 20px;
 }
 
-.houseinfo p{
+.houseinfo p {
     text-align: center;
     margin-bottom: 0.05em;
     margin-top: 0.05em;
@@ -182,7 +186,7 @@ body {
     margin-right: 20px;
 }
 
-.individualhouseinfo p{
+.individualhouseinfo p {
     text-align: center;
     margin-bottom: 0.05em;
     margin-top: 0.05em;
@@ -204,21 +208,33 @@ body {
     margin-right: 20px;
 }
 
-.housecontainer p{
+.housecontainer p {
     text-align: center;
     margin-bottom: 0.05em;
     margin-top: 0.05em;
 }
 
-.small{/*TODO if view is squished it can hide the date*/
+.small {/*TODO if view is squished it can hide the date*/
     position: absolute;
     font-size: 10px;
     right: 5px;
-    top: 5px;
+    bottom: 5px;
     text-align: right;
+    line-height: 20px;
+    font-weight: bold;
+}
+
+.individualsmall {
+    position: absolute;
+    font-size: 10px;
+    right: 5px;
+    bottom: 5px;
+    text-align: right;
+    line-height: 30px;
 }
 
 .headimg{
+    margin-top: 7px;
     width: 35px;
     height: 35px;
     transition: all 0.2s ease-in-out;
@@ -251,15 +267,23 @@ body {
 }
 
 .clickable-copy {
+    font-weight: bold;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 5px;
+    transition: all 0.2s ease-in-out;
+}
+
+.clickable-copy:hover {
+    filter:invert(20%)
 }
 
 .clickable-copy i {
     position: relative;
     top: -5px;
+    margin-top: 9px;
+    margin-left: 5px;
 }
 
 .timetext {
@@ -268,7 +292,7 @@ body {
     right: 20px;
     width: 10%;
     text-align: center;
-    z-index: 1000000;
+    z-index: 99999;
     text-shadow: 0 0 15px white;
 }
 
@@ -313,3 +337,31 @@ body {
     transition: 0.4s;
     color: #0f76e4;
 }
+
+#notification-area {
+    position: fixed; 
+    top: 20px;
+    right: 20px;
+    z-index: 100000;
+}
+
+.notification {
+    opacity: 0;
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transform: translateX(100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.notification.fade-in {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification.fade-out {
+    opacity: 0;
+    transform: translateX(100%);
+}  

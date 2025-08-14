@@ -1,14 +1,19 @@
 const YOUR_DOMAIN = 'github.com/luckycdev/housing';//playerdb kindly asks for users to use a user-agent header
 
 function getDate(date) {
-  return new Date(date).toLocaleString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: false
-  });//1969 dates?
+  if(date == 0) {
+    return "Unknown";
+  }
+  else {
+    return new Date(date).toLocaleString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: false
+    });
+  }
 }
 
 function searchPlayer(name) {//todo one search function for players and houses, maybe a search page dedicated to results
@@ -139,11 +144,11 @@ function getActive() {
           const headimg = 'https://mc-heads.net/head/'+house.owner;
 
         div.innerHTML = `
-          <p class='small nocursor containertext'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
-          <p class="clickable-copy containertext" onclick="copyText(this)">/visit ${username} <i class="fa-regular fa-clipboard"></i></p>
+          <p class='small nocursor'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
+          <p class="clickable-copy copytext" onclick="copyText(this)">/visit ${username} <i class="clipboard fa-regular fa-clipboard"></i></p>
           <a href="player/?${house.owner}"><img class='headimg' src="${headimg}"></a>
           <a class="nodecoration" href="house/?${house.uuid}"><p class="coloredname"></p></a>
-          <p class="nocursor containertext">${house.players} players</p>
+          <p class="nocursor playertext">${house.players} players</p>
           <p class="nocursor cookietext">${house.cookies.current} cookies</p>
         `;
         div.querySelector(".coloredname").appendChild(getColoredName(house.name));
@@ -192,11 +197,11 @@ async function getHouseData(houseId) {
 
     container.innerHTML = `
       <div class="individualhouseinfo">
-        <p class='small nocursor containertext'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
+        <p class='individualsmall nocursor'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
         <p class="individualcoloredname"></p>
         <p><strong>Owner: </strong><a class="coloredname nodecoration" href="../player/?${house.owner}"><span class="rankedname"></span></a></p>
         <a href="../player/?${house.owner}"><img src="${headimg}" class="househeadimg"></a>
-        <p class="containertext">${house.players} players</p>
+        <p class="playertext">${house.players} players</p>
         <p class="cookietext">${house.cookies.current} cookies</p>
       </div>
     `;
@@ -209,7 +214,7 @@ async function getHouseData(houseId) {
     output.appendChild(container);
   }
 }
-async function getPlayerData(playerId) {//TODO check if foreach works. i think it does
+async function getPlayerData(playerId) {
   const output = document.getElementById('playerOutput');
 
   try {
@@ -247,10 +252,10 @@ async function getPlayerData(playerId) {//TODO check if foreach works. i think i
       const houseContainer = document.createElement('div');
       houseContainer.className = 'houseinfo';
       houseContainer.innerHTML = `
+        <p class='small nocursor'>${getDate(house.createdAt).replace(/,/g, '<br>')}</p>
         <a class="nodecoration" href="../house/?${house.uuid}"><span class="coloredname"></span></a>
-        <p class="containertext">${house.players} players</p>
+        <p class="playertext">${house.players} players</p>
         <p class="cookietext">${house.cookies.current} cookies</p>
-        <p class="containertext">Created at ${getDate(house.createdAt)}</p>
       `;
       houseContainer.querySelector(".coloredname").appendChild(getColoredName(house.name));
       output.appendChild(houseContainer);
@@ -262,8 +267,34 @@ async function getPlayerData(playerId) {//TODO check if foreach works. i think i
   }
 }
 
+function showNotification(message) {
+  const notificationArea = document.getElementById('notification-area');
+  const notification = document.createElement('div');
+  notification.classList.add('notification');
+  notification.innerText = message;
+  notificationArea.appendChild(notification);
+
+  requestAnimationFrame(() => {
+    notification.classList.add('fade-in');
+  });
+
+  setTimeout(() => {
+    notification.classList.remove('fade-in');
+    notification.classList.add('fade-out');
+    notification.addEventListener('transitionend', () => {
+      notification.remove();
+    }, { once: true });
+  }, 2000);
+}
+
 function copyText(el) {
-    const text = el.textContent.trim();
-    navigator.clipboard.writeText(text)
-        .catch(err => console.error('Copy failed', err));
+  const text = el.textContent.trim();
+  navigator.clipboard.writeText(text)
+      .then(() => {
+          showNotification(`Copied ${text}`);
+      })
+      .catch(err => {
+          console.error(`Copy of ${text} failed`, err);
+          alert(`Copy of ${text} failed`);
+      });
 }

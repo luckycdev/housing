@@ -33,15 +33,20 @@ If you want to kill your screen, run `screen -X -S housing kill`
 
 ## Roadmap / to-do list
 - sorting by player count, cookie count, and recent
-- add search bar and search by player name and maybe houses
+- make searching houses too
+- make search enter key actually search - maybe an input instead of a textarea idk
 - set up a cookie history chart and player history chart etc. for house info pages
-- on the player info page you can click on the houses to see their info
 - §k support
-- make unicode characters in house names appear on the same line - house names and + in ranked names
 - make whole site css look a bit nicer
 - make house containers insides nicer (like (cookie count) (cookie emoji) and like (player count) (person emoji) and font size and colors etc.)
 - save all houses from a user to a cache so when you go to the player it shows all of their houses - check if it still exists before it shows it and if not remove from cache - might need to raise safe rate limit
-- make black house names have less text shadow?
+- make black house names have no text shadow
 - check all error msgs showing on pages
+- random house button
+- investigate house container sometimes showing error for being unable to read username undefined
+- 32 character house name with no spaces goes outside container - find fix
+- when multiple notifications it teleports up when other goes away but it should slide up smoothly
+- loading text after search with no houses - also should show player info still if no houses
 
 ### Heavily inspired by the now shut down [housing.menu](https://web.archive.org/web/20240417020435/https://www.housing.menu/)
+### Uses Hypixel API, PlayerDB.co, and mc-heads.net
