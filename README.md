@@ -1,4 +1,6 @@
-# Info 🏠
+<img src="website/housing.png" width="150" height="150">
+
+# Info
 This is a website that displays Hypixel Housing information using the Hypixel API.
 
 * Official instance: https://housing.luckyc.dev
