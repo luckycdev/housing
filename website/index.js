@@ -194,6 +194,13 @@ async function getHouseData(houseId) {
     const headimg = 'https://mc-heads.net/head/' + house.owner;
 
     document.title = `${getUncoloredName(house.name)}`;
+    let link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.head.appendChild(link);
+    }
+    link.href = headimg;
 
     container.innerHTML = `
       <div class="individualhouseinfo">
@@ -238,6 +245,13 @@ async function getPlayerData(playerId) {
     const headimg = 'https://mc-heads.net/head/' + playerId;
 
     document.title = `${username}'s houses`;
+    let link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.head.appendChild(link);
+    }
+    link.href = headimg;
 
     const playerInfo = document.createElement('div');
     playerInfo.className = 'playerinfo';
