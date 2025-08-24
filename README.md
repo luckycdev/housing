@@ -52,4 +52,4 @@ If you want to kill your screen, run `screen -X -S housing kill`
 - check everything on mobile
 
 ### Heavily inspired by the now shut down [housing.menu](https://web.archive.org/web/20240417020435/https://www.housing.menu/)
-### Uses Hypixel API, PlayerDB.co, and mc-heads.net
+### Uses [Hypixel API](https://api.hypixel.net), [PlayerDB.co](https://playerdb.co), and [mc-heads.net](https://mc-heads.net)
