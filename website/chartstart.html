@@ -24,85 +24,91 @@
 <h1>WIP</h1>
     <canvas id="CookiesAndPlayersChart" width="380" height="180"></canvas>
 
-    <script>
-        let labels = ['January', 'February', 'March', 'April', 'May'];//TODO find out good time scheme, check housing.menu 
-        let cookiesData = [10, 25, 13, 18, 30];//TODO get data from cache
-        let playersData = [20, 15, 28, 22, 10];
+<script>
+    let labels = ['January', 'February', 'March', 'April', 'May'];
+    let cookiesData = [10, 25, 13, 18, 30];
+    let playersData = [20, 15, 28, 22, 10];
 
-        let ctx = 
-            document.getElementById('CookiesAndPlayersChart').getContext('2d');
-        let CookiesAndPlayersChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    {//TODO at top needs to be white
-                        label: 'Cookies',
-                        data: cookiesData,
-                        borderColor: '#e68142',
-                        backgroundColor: '#e68142',
-                        borderWidth: 2,
-                        fill: false
-                    },
-                    {
-                        label: 'Players',
-                        data: playersData,
-                        borderColor: 'lightblue',
-                        backgroundColor: 'lightblue',
-                        borderWidth: 2,
-                        fill: false
+    let ctx = document.getElementById('CookiesAndPlayersChart').getContext('2d');
+    let CookiesAndPlayersChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Cookies',
+                    data: cookiesData,
+                    borderColor: '#e68142',
+                    backgroundColor: '#e68142',
+                    borderWidth: 2,
+                    fill: false
+                },
+                {
+                    label: 'Players',
+                    data: playersData,
+                    borderColor: 'lightblue',
+                    backgroundColor: 'lightblue',
+                    borderWidth: 2,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'
                     }
-                ]
+                }
             },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        ticks: {
-                            color: 'white'
-                        },
-                        grid: {
-                            color: '#616161'
-                        },
-                        title: {
-                            display: true,
-                            text: 'Time',
-                            font: {
-                                padding: 4,
-                                size: 20,
-                                weight: 'bold',
-                                family: 'Arial',
-                            },
-                            color: 'white'
-                        }
+            scales: {
+                x: {
+                    ticks: {
+                        color: 'white'
                     },
-                    y: {
-                        ticks: {
-                            color: 'white'
+                    grid: {
+                        color: '#616161'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Time',
+                        font: {
+                            padding: 4,
+                            size: 20,
+                            weight: 'bold',
+                            family: 'Arial',
                         },
-                        grid: {
-                            color: '#616161'
+                        color: 'white'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: 'white'
+                    },
+                    grid: {
+                        color: '#616161'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Cookies & Players',
+                        font: {
+                            size: 20,
+                            weight: 'bold',
+                            family: 'Arial'
                         },
-                        title: {
-                            display: true,
-                            text: 'Cookies & Players',
-                            font: {
-                                size: 20,
-                                weight: 'bold',
-                                family: 'Arial'
-                            },
-                            color: 'white'
-                        },
-                        //beginAtZero: true,
-                        scaleLabel: {//TODO used?
-                            display: true,
-                            labelString: 'Cookies and Players chart',
-                        }
+                        color: 'white'
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Cookies and Players chart',
                     }
                 }
             }
-        });
-    </script>
+        }
+    });
+</script>
+
 
 </body>
 
