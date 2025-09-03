@@ -37,7 +37,7 @@ If you want to kill your screen, run `screen -X -S housing kill`
 - sorting by player count, cookie count, and recent
 - make searching houses too
 - make search enter key actually search - maybe an input instead of a textarea idk
-- set up a cookie history chart and player history chart etc. for house info pages
+- set up a cookie history chart and player history chart etc. for house info pages (started using chartjs but not finished or implemented, see chartstart file)
 - §k support
 - make whole site css look a bit nicer
 - make house containers insides nicer (like (cookie count) (cookie emoji) and like (player count) (person emoji) and font size and colors etc.)
