@@ -1,3 +1,4 @@
+const dataURL = "http://127.0.0.1:3000";
 const YOUR_DOMAIN = 'github.com/luckycdev/housing';//playerdb kindly asks for users to use a user-agent header
 
 function getDate(date) {
@@ -30,7 +31,7 @@ function searchPlayer(name) {//todo one search function for players and houses, 
 
 async function getRankedName(uuid) {
   try {
-  const response = await fetch(`/api/playerinfo/${uuid}`)//TODO error codes - important bc rate limit will just say "failed to fetch player data" :(
+  const response = await fetch(dataURL+`/api/playerinfo/${uuid}`)//TODO error codes - important bc rate limit will just say "failed to fetch player data" :(
   if (!response.ok) {
     throw new Error (`Error fetching player info: ${response.status} ${response.statusText}`);
   }
@@ -114,7 +115,7 @@ function getActive() {
   const output = document.getElementById('activeOutput');
   const container = document.createElement('div');
 
-  fetch(`/api/active`)
+  fetch(dataURL+`/api/active`)
     .then(response => {
       if (response.status === 403) throw new Error("Hypixel API key is invalid or missing");
       if (response.status === 429) throw new Error("Hypixel rate limit reached, please try again later");
@@ -172,7 +173,7 @@ async function getHouseData(houseId) {
   const container = document.createElement('div');
 
   try {
-    const res = await fetch(`/api/house/${houseId}`);
+    const res = await fetch(dataURL+`/api/house/${houseId}`);
     if (res.status === 403) throw new Error("Hypixel API key is invalid or missing");
     if (res.status === 404) {
       const data = await res.json();
@@ -187,7 +188,7 @@ async function getHouseData(houseId) {
 
     const house = await res.json();
 
-    const playerRes = await fetch(`/api/playerinfo/${house.owner}`);
+    const playerRes = await fetch(dataURL+`/api/playerinfo/${house.owner}`);
     if (!playerRes.ok) throw new Error("Failed to fetch player data");
 
     const [rankedname] = await getRankedName(house.owner);
@@ -225,7 +226,7 @@ async function getPlayerData(playerId) {
   const output = document.getElementById('playerOutput');
 
   try {
-    const res = await fetch(`/api/houses/${playerId}`);
+    const res = await fetch(dataURL+`/api/houses/${playerId}`);
     if (res.status === 403) throw new Error("Hypixel API key is invalid or missing");
     if (res.status === 429) throw new Error("Hypixel rate limit reached, please try again later");
     if (res.status === 430) throw new Error("Rate limit reached, please try again later");
@@ -238,7 +239,7 @@ async function getPlayerData(playerId) {
       return;
     }
 
-    const playerDataRes = await fetch(`/api/playerinfo/${playerId}`);
+    const playerDataRes = await fetch(dataURL+`/api/playerinfo/${playerId}`);
     if (!playerDataRes.ok) throw new Error("Failed to fetch player data");
 
     const [rankedname, username] = await getRankedName(playerId);
