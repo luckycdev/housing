@@ -38,13 +38,13 @@ If you want to kill your screen, run `screen -X -S housing kill`
 - sorting by player count, cookie count, and recent
 - make searching houses too
 - make search enter key actually search - maybe an input instead of a textarea idk
-- set up a cookie history chart and player history chart etc. for house info pages (started using chartjs but not finished or implemented, see chartstart file)
+- make sure all houses are getting put in cookie cache. right now it only uses the active houses but if you click on someone who has an active house and click on a different house of theirs it might not have a cookie chart
 - §k support
 - make whole site css look a bit nicer
 - make house containers insides nicer (like (cookie count) (cookie emoji) and like (player count) (person emoji) and font size and colors etc.)
 - save all houses from a user to a cache so when you go to the player it shows all of their houses - check if it still exists before it shows it and if not remove from cache - might need to raise safe rate limit
 - make §0 have no text shadow
-- check all error msgs showing on pages
+- check all error msgs showing on pages and make sure all error codes implemented
 - random house button
 - investigate house container sometimes showing error for being unable to read username undefined - only seen once
 - 32 character house name with no spaces goes outside container - find fix (make smaller if long or something)

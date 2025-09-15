@@ -2,9 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const PORT = 3000;
+const CACHE_FILE = path.join(__dirname, 'cookieCache.json');
 
 app.use(cors());
 
@@ -91,6 +94,14 @@ app.get('/api/houses/:playerId', async (req, res) => { // get a player's houses 
 let cachedData = null;
 let lastUpdated = null;
 
+function loadCache() { // cookie and player cache for charts
+  if (!fs.existsSync(CACHE_FILE)) return {};
+  return JSON.parse(fs.readFileSync(CACHE_FILE, 'utf8'));
+}
+function saveCache(cache) {
+  fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
+}
+
 const fetchHypixelData = async () => { // get active houses
   try {
     const apiKey = process.env.API_KEY;
@@ -98,6 +109,27 @@ const fetchHypixelData = async () => { // get active houses
     cachedData = response.data;
     lastUpdated = new Date().toISOString();
     console.log(`[${getTimestamp()}] Updated active houses`);
+
+    const cache = loadCache();
+    const today = new Date().toISOString().slice(0, 10);
+    if (Array.isArray(cachedData)) {
+      cachedData.forEach(house => {
+        if (!cache[house.uuid]) cache[house.uuid] = [];
+
+        if (!cache[house.uuid].some(entry => entry.date === today)) {
+          cache[house.uuid].push({
+            date: today,
+            players: house.players,
+            cookies: house.cookies.current
+          });
+          // keep 10 days of cache
+          if (cache[house.uuid].length > 10) {
+            cache[house.uuid] = cache[house.uuid].slice(-10);
+          }
+        }
+      });
+      saveCache(cache);
+    }
   } catch (error) {
     console.error(`[${getTimestamp()}] Error fetching data from Hypixel: ${error.message}`);
   }
@@ -112,6 +144,11 @@ app.get('/api/active', (req, res) => { // give cached data
   } else {
     res.status(503).json({ error: 'Service Unavailable' });
   }
+});
+
+app.get('/api/history/:houseId', (req, res) => { // get cookie and player cache for charts
+  const cache = loadCache();
+  res.json(cache[req.params.houseId] || []);
 });
 
 app.listen(PORT, '127.0.0.1', () => {

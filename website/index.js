@@ -210,12 +210,100 @@ async function getHouseData(houseId) {
         <a href="../player/?${house.owner}"><img src="${headimg}" class="househeadimg"></a>
         <p class="playertext">${house.players} players</p>
         <p class="cookietext">${house.cookies.current} cookies</p>
+        <div class="chart-container" style="margin-top:20px;">
+          <canvas id="CookiesAndPlayersChart" width="380" height="180"></canvas>
+        </div>
       </div>
     `;
     container.querySelector(".individualcoloredname").appendChild(getColoredName(house.name));
     container.querySelector(".rankedname").appendChild(rankedname);
     document.getElementsByClassName("preoutput")[0].hidden = true;
     output.appendChild(container);
+
+    if (!window.Chart) {
+      const script = document.createElement('script');
+      script.src = "https://cdn.jsdelivr.net/npm/chart.js";
+      document.head.appendChild(script);
+      await new Promise(resolve => { script.onload = resolve; });
+    }
+
+    const chartRes = await fetch(`/api/history/${houseId}`);
+    const history = await chartRes.json();
+    const labels = history.map(entry => {
+      const d = new Date(entry.date);
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      return `${mm}-${dd}`;
+    });
+    const cookiesData = history.map(entry => entry.cookies);
+    const playersData = history.map(entry => entry.players);
+
+    const ctx = container.querySelector('#CookiesAndPlayersChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Cookies',
+            data: cookiesData,
+            borderColor: '#e68142',
+            backgroundColor: '#e68142',
+            borderWidth: 2,
+            fill: false
+          },
+          {
+            label: 'Players',
+            data: playersData,
+            borderColor: 'lightblue',
+            backgroundColor: 'lightblue',
+            borderWidth: 2,
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: 'white',
+              generateLabels: function(chart) {
+                const original = Chart.defaults.plugins.legend.labels.generateLabels;
+                const labels = original(chart);
+                labels.forEach(label => {
+                  label.fontColor = 'white';
+                });
+                return labels;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: 'white' },
+            grid: { color: '#616161' },
+            title: {
+              display: true,
+              text: 'Time',
+              font: { padding: 4, size: 15, weight: 'bold', family: 'Arial' },
+              color: 'white'
+            }
+          },
+          y: {
+            ticks: { color: 'white' },
+            grid: { color: '#616161' },
+            title: {
+              display: true,
+              text: 'Cookies & Players',
+              font: { size: 15, weight: 'bold', family: 'Arial' },
+              color: 'white'
+            }
+          }
+        }
+      }
+    });
+
   } catch (err) {
     container.innerHTML = `Error loading house data: ${err.message}`;
     output.appendChild(container);
