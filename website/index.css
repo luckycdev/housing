@@ -365,3 +365,8 @@ body {
     opacity: 0;
     transform: translateX(100%);
 }  
+
+.chart {
+    background-color: rgb(77, 80, 84); 
+    border-radius: 5px;
+}

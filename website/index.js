@@ -210,8 +210,13 @@ async function getHouseData(houseId) {
         <a href="../player/?${house.owner}"><img src="${headimg}" class="househeadimg"></a>
         <p class="playertext">${house.players} players</p>
         <p class="cookietext">${house.cookies.current} cookies</p>
-        <div class="chart-container" style="margin-top:20px;">
-          <canvas id="CookiesAndPlayersChart" width="380" height="180"></canvas>
+        <div class="chart-row" style="display: flex; gap: 20px; margin-top:20px;">
+          <div class="chart-container" style="flex:1;">
+            <canvas class="chart" id="PlayersChart" width="380" height="180"></canvas>
+          </div>
+          <div class="chart-container" style="flex:1;">
+            <canvas class="chart" id="CookiesChart" width="380" height="180"></canvas>
+          </div>
         </div>
       </div>
     `;
@@ -238,20 +243,13 @@ async function getHouseData(houseId) {
     const cookiesData = history.map(entry => entry.cookies);
     const playersData = history.map(entry => entry.players);
 
-    const ctx = container.querySelector('#CookiesAndPlayersChart').getContext('2d');
-    new Chart(ctx, {
+    // players chart
+    const playersCtx = container.querySelector('#PlayersChart').getContext('2d');
+    new Chart(playersCtx, {
       type: 'line',
       data: {
         labels: labels,
         datasets: [
-          {
-            label: 'Cookies',
-            data: cookiesData,
-            borderColor: '#e68142',
-            backgroundColor: '#e68142',
-            borderWidth: 2,
-            fill: false
-          },
           {
             label: 'Players',
             data: playersData,
@@ -282,20 +280,79 @@ async function getHouseData(houseId) {
         scales: {
           x: {
             ticks: { color: 'white' },
-            grid: { color: '#616161' },
+            grid: { color: '#8f8f8fff' },
             title: {
               display: true,
-              text: 'Time',
+              text: 'Date',
               font: { padding: 4, size: 15, weight: 'bold', family: 'Arial' },
               color: 'white'
             }
           },
           y: {
             ticks: { color: 'white' },
-            grid: { color: '#616161' },
+            grid: { color: '#8f8f8fff' },
             title: {
               display: true,
-              text: 'Cookies & Players',
+              text: 'Players',
+              font: { size: 15, weight: 'bold', family: 'Arial' },
+              color: 'white'
+            }
+          }
+        }
+      }
+    });
+
+    // cookies chart
+    const cookiesCtx = container.querySelector('#CookiesChart').getContext('2d');
+    new Chart(cookiesCtx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Cookies',
+            data: cookiesData,
+            borderColor: '#e68142',
+            backgroundColor: '#e68142',
+            borderWidth: 2,
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: 'white',
+              generateLabels: function(chart) {
+                const original = Chart.defaults.plugins.legend.labels.generateLabels;
+                const labels = original(chart);
+                labels.forEach(label => {
+                  label.fontColor = 'white';
+                });
+                return labels;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: 'white' },
+            grid: { color: '#8f8f8fff' },
+            title: {
+              display: true,
+              text: 'Date',
+              font: { padding: 4, size: 15, weight: 'bold', family: 'Arial' },
+              color: 'white'
+            }
+          },
+          y: {
+            ticks: { color: 'white' },
+            grid: { color: '#8f8f8fff' },
+            title: {
+              display: true,
+              text: 'Cookies',
               font: { size: 15, weight: 'bold', family: 'Arial' },
               color: 'white'
             }
